@@ -104,7 +104,7 @@ namespace StudentManagement
                     string subjectRound = this.txtGradeWeek.Text;
 
                     // 데이터 삽입을 위한 SQL 쿼리문
-                    sql = String.Format("INSERT INTO subject VALUES('{0}', '{1}', '{2}', '{3)', '{4}', '{5}', '{6}')", subjectCode, subjectGrade, subjectSemester, subjectName, subjectProfessor, subjectNum, subjectRound);
+                    sql = String.Format("INSERT INTO subject VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", subjectCode, subjectGrade, subjectSemester, subjectName, subjectProfessor, subjectNum, subjectRound);
                   
                     
 
