@@ -104,12 +104,12 @@ namespace StudentManagement
                     string subjectRound = this.txtGradeWeek.Text;
 
                     // 데이터 삽입을 위한 SQL 쿼리문
-                    sql = String.Format("insert into subject values('{0}', '{1}', '{2}', '{3)', '{4}', '{5}', '{6}')", subjectCode, subjectGrade, subjectSemester, subjectName, subjectProfessor, subjectNum, subjectRound);
+                    sql = String.Format("INSERT INTO subject VALUES('{0}', '{1}', '{2}', '{3)', '{4}', '{5}', '{6}')", subjectCode, subjectGrade, subjectSemester, subjectName, subjectProfessor, subjectNum, subjectRound);
                   
+                    
+
                     // SQL 쿼리문 실행
                     MySqlCommand command = new MySqlCommand(sql, mysql);
-
-                    
 
                     // 성공 여부 검사
                     if (command.ExecuteNonQuery() != 1)

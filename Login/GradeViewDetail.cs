@@ -54,11 +54,33 @@ namespace StudentManagement
                 {
                     mysql.Open();
 
-                    sql = String.Format("SELECT count(*) FROM course WHERE coursecode = '{0}'", subjectCode);
+                    string studentGrade = this.txtGrade.Text;
+                    string studentSemester = this.txtSemester.Text;
+
+                    sql = String.Format("SELECT stdnum FROM student WHERE stdgrade = '{0}'AND stdsemester = '{1}'", studentGrade, studentSemester);
 
                     MySqlCommand command = new MySqlCommand(sql, mysql);
 
                     MySqlDataReader reader = command.ExecuteReader();
+
+                    string[] studentNum = new string[300];
+
+                    int len = 0;
+
+                    while(reader.Read())
+                    {
+                        studentNum[len] = reader["stdnum"].ToString();
+
+                        len++;
+                    }
+
+                    reader.Close();
+
+                    sql = String.Format("SELECT count(*) FROM course WHERE coursecode = '{0}'", subjectCode);
+
+                    command = new MySqlCommand(sql, mysql);
+
+                    reader = command.ExecuteReader();
 
                     reader.Read();
 
@@ -67,41 +89,50 @@ namespace StudentManagement
 
                     reader.Close();
 
-                    sql = String.Format("SELECT * FROM course WHERE coursecode = '{0}'", subjectCode);
+                    string[] courseNum = new string[300];
+                    int[] courseAttend = new int[300];
+                    int[] courseLate = new int[300];
+                    int[] courseAbsent = new int[300];
+                    int[] courseTask = new int[300];
+                    int[] courseMidTerm = new int[300];
+                    int[] courseFinalTerm = new int[300];
+                    string[] courseScore = new string[300];
 
-                    command = new MySqlCommand(sql, mysql);
-                    reader = command.ExecuteReader();
+                    int len2 = 0;
 
-                    int len = 0;
-
-                    string[] courseNum = new string[count];
-                    int[] courseAttend = new int[count];
-                    int[] courseLate = new int[count];
-                    int[] courseAbsent = new int[count];
-                    int[] courseTask = new int[count];
-                    int[] courseMidTerm = new int[count];
-                    int[] courseFinalTerm = new int[count];
-                    string[] courseScore = new string[count];
-
-                    while(reader.Read())
+                    for (int i = 0; i < len; i++)
                     {
-                        courseNum[len] = reader["coursenum"].ToString();
-                        courseAttend[len] = int.Parse(reader["courseAttend"].ToString());
-                        courseLate[len] = int.Parse(reader["courselate"].ToString());
-                        courseAbsent[len] = int.Parse(reader["courseabsent"].ToString());
-                        courseTask[len] = int.Parse(reader["coursetask"].ToString());
-                        courseMidTerm[len] = int.Parse(reader["coursemidterm"].ToString());
-                        courseFinalTerm[len] = int.Parse(reader["coursefinalterm"].ToString());
-                        courseScore[len] = reader["coursescore"].ToString();
+                        sql = String.Format("SELECT * FROM course WHERE coursecode = '{0}' AND coursenum = '{1}'", subjectCode, studentNum[i]);
 
-                        len++;
+                        command = new MySqlCommand(sql, mysql);
+                        reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+                            courseNum[len2] = reader["coursenum"].ToString();
+                            courseAttend[len2] = int.Parse(reader["courseAttend"].ToString());
+                            courseLate[len2] = int.Parse(reader["courselate"].ToString());
+                            courseAbsent[len2] = int.Parse(reader["courseabsent"].ToString());
+                            courseTask[len2] = int.Parse(reader["coursetask"].ToString());
+                            courseMidTerm[len2] = int.Parse(reader["coursemidterm"].ToString());
+                            courseFinalTerm[len2] = int.Parse(reader["coursefinalterm"].ToString());
+                            courseScore[len2] = reader["coursescore"].ToString();
+
+                            len2++;
+                        }
+
+                        reader.Close();
+
                     }
 
-                    reader.Close();
 
-                    string[] studentName = new string[count];
+                    
 
-                    for(int i = 0; i < len; i++)
+                    
+
+                    string[] studentName = new string[300];
+
+                    for(int i = 0; i < len2; i++)
                     {
                         sql = String.Format("SELECT stdname FROM student WHERE stdnum = '{0}'", courseNum[i]);
 
@@ -119,9 +150,9 @@ namespace StudentManagement
                     
                     mysql.Close();
 
-                    double[] attend = new double[count];
+                    double[] attend = new double[300];
 
-                    for(int i = 0; i < len; i++)
+                    for(int i = 0; i < len2; i++)
                     {
                         attend[i] = 0.0;
 
@@ -145,7 +176,7 @@ namespace StudentManagement
                     // 리스트뷰에 아이템 삽입
                     this.lvCourseStudent.Items.Clear();
 
-                    for(int i = 0; i < len; i++)
+                    for(int i = 0; i < len2; i++)
                     {
                         this.lvCourseStudent.Items.Add(new ListViewItem(new string[] { courseNum[i], studentName[i], attend[i] + "%" , Convert.ToString(courseTask[i]), Convert.ToString(courseMidTerm[i]),
                             Convert.ToString(courseFinalTerm[i]), courseScore[i] }));
