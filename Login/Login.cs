@@ -44,9 +44,12 @@ namespace Login
 
                     if(userId == memberId && userPw == memberPw)
                     {
+                        
+                        
                         StudentForm stdForm = new StudentForm();
-                        stdForm.Show();
-                        this.Visible = false;
+
+                        stdForm.ShowDialog();
+                        
 
                         
                     }

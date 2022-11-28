@@ -35,6 +35,8 @@
             this.lvError = new System.Windows.Forms.ListView();
             this.chCount = new System.Windows.Forms.ColumnHeader();
             this.chContent = new System.Windows.Forms.ColumnHeader();
+            this.btnAddError = new System.Windows.Forms.Button();
+            this.btnF5 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblStudentNum
@@ -93,11 +95,33 @@
             this.chContent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.chContent.Width = 700;
             // 
+            // btnAddError
+            // 
+            this.btnAddError.Location = new System.Drawing.Point(698, 5);
+            this.btnAddError.Name = "btnAddError";
+            this.btnAddError.Size = new System.Drawing.Size(75, 23);
+            this.btnAddError.TabIndex = 5;
+            this.btnAddError.Text = "추가하기";
+            this.btnAddError.UseVisualStyleBackColor = true;
+            this.btnAddError.Click += new System.EventHandler(this.btnAddError_Click);
+            // 
+            // btnF5
+            // 
+            this.btnF5.Location = new System.Drawing.Point(617, 5);
+            this.btnF5.Name = "btnF5";
+            this.btnF5.Size = new System.Drawing.Size(75, 23);
+            this.btnF5.TabIndex = 6;
+            this.btnF5.Text = "새로고침";
+            this.btnF5.UseVisualStyleBackColor = true;
+            this.btnF5.Click += new System.EventHandler(this.btnF5_Click);
+            // 
             // ErrorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(785, 311);
+            this.Controls.Add(this.btnF5);
+            this.Controls.Add(this.btnAddError);
             this.Controls.Add(this.lvError);
             this.Controls.Add(this.txtStudentNum);
             this.Controls.Add(this.txtStudentName);
@@ -122,5 +146,7 @@
         private ListView lvError;
         private ColumnHeader chCount;
         private ColumnHeader chContent;
+        private Button btnAddError;
+        private Button btnF5;
     }
 }

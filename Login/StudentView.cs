@@ -32,6 +32,7 @@ namespace StudentManagement
 
         private void StudentForm_Load(object sender, EventArgs e)
         {
+
             SelectStudent(gradeNum, classNum);
             
         }
@@ -291,7 +292,7 @@ namespace StudentManagement
             detailForm.TextGrade = itemGrade;
             detailForm.TextClass = itemClass;
 
-            detailForm.ShowDialog();
+            detailForm.Show();
 
 
         }

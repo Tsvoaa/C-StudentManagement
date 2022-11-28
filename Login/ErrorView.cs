@@ -55,7 +55,7 @@ namespace StudentManagement
                     reader.Close();
 
 
-                    sql = String.Format("SELECT errorcount, errorcontent FROM error WHERE errornum = '{0}'", studentNum);
+                    sql = String.Format("SELECT errorcontent FROM error WHERE errornum = '{0}'", studentNum);
 
                     command = new MySqlCommand(sql, mysql);
                     reader = command.ExecuteReader();
@@ -67,7 +67,6 @@ namespace StudentManagement
 
                     while(reader.Read())
                     {
-                        count[len] = reader["errorcount"].ToString();
                         content[len] = reader["errorcontent"].ToString();
 
                         len++;
@@ -77,7 +76,7 @@ namespace StudentManagement
 
                     for(int i = 0; i < len; i++)
                     {
-                        this.lvError.Items.Add(new ListViewItem(new String[] { count[i], content[i] }));
+                        this.lvError.Items.Add(new ListViewItem(new String[] { Convert.ToString(i + 1), content[i] }));
                     }
 
 
@@ -91,6 +90,22 @@ namespace StudentManagement
         }
 
         private void ErrorView_Load(object sender, EventArgs e)
+        {
+            ErrorLoad();
+        }
+
+        private void btnAddError_Click(object sender, EventArgs e)
+        {
+            ErrorAdd errorAdd = new ErrorAdd();
+
+            errorAdd.TextStudentNum = this.txtStudentNum.Text;
+
+            errorAdd.ShowDialog();
+
+
+        }
+
+        private void btnF5_Click(object sender, EventArgs e)
         {
             ErrorLoad();
         }
