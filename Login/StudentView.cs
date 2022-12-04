@@ -115,8 +115,6 @@ namespace StudentManagement
                         semester[len] = reader["stdsemester"].ToString();
 
                         len++;
-
-                        
                     }
 
                     reader.Close();
@@ -301,8 +299,7 @@ namespace StudentManagement
 
         private void StudentForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            LoginForm loginForm = new LoginForm();
-            loginForm.Close();
+           
         }
 
         private void btnAddStudent_Click(object sender, EventArgs e)
@@ -322,8 +319,9 @@ namespace StudentManagement
 
         }
 
-        
-        
-
+        private void StudentForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           
+        }
     }
 }

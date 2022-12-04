@@ -242,6 +242,7 @@
             this.MinimizeBox = false;
             this.Name = "StudentForm";
             this.Text = "Form2";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StudentForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StudentForm_FormClosed);
             this.Load += new System.EventHandler(this.StudentForm_Load);
             this.gbGrade.ResumeLayout(false);

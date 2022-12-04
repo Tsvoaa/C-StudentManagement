@@ -49,7 +49,8 @@ namespace Login
                         StudentForm stdForm = new StudentForm();
 
                         stdForm.ShowDialog();
-                        
+
+                        this.Close();
 
                         
                     }
