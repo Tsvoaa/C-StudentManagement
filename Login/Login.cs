@@ -18,50 +18,26 @@ namespace Login
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            try
+
+            string userId = this.txtId.Text;
+            string userPw = this.txtPw.Text;
+            string memberId = "";
+            string memberPw = "";
+
+            string query = String.Format("SELECT memberid, memberpw FROM member WHERE memberid = '{0}' AND memberpw = '{1}'", userId, userPw);
+
+            string[,] result = db.SqlSelect(query, 2);
+
+            memberId = result[0,0];
+            memberPw = result[0,1];
+
+            if (userId == memberId && userPw == memberPw)
             {
-                string userId = this.txtId.Text;
-                string userPw = this.txtPw.Text;
-                string memberId = "";
-                string memberPw = "";
+                StudentForm stdForm = new StudentForm();
 
+                stdForm.ShowDialog();
 
-                using (MySqlConnection mysql = new MySqlConnection(db.connect()))
-                {
-                    mysql.Open();
-
-                    string sql = String.Format("Select memberid, memberpw from member where memberid='{0}' and memberpw='{1}'", userId, userPw);
-
-                    MySqlCommand command = new MySqlCommand(sql, mysql);
-
-                    MySqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        memberId = reader["memberid"].ToString();
-                        memberPw = reader["memberpw"].ToString();
-                    }
-
-                    if(userId == memberId && userPw == memberPw)
-                    {
-                        
-                        
-                        StudentForm stdForm = new StudentForm();
-
-                        stdForm.ShowDialog();
-
-                        this.Close();
-
-                        
-                    }
-
-                    
-
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                this.Close();
             }
             
         }
