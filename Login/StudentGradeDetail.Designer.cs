@@ -35,9 +35,6 @@
             this.lblGradeScore = new System.Windows.Forms.Label();
             this.txtGradeScore = new System.Windows.Forms.TextBox();
             this.lblStudentScore = new System.Windows.Forms.Label();
-            this.lvDetail = new System.Windows.Forms.ListView();
-            this.chWeek = new System.Windows.Forms.ColumnHeader();
-            this.chAttend = new System.Windows.Forms.ColumnHeader();
             this.lblRound = new System.Windows.Forms.Label();
             this.txtRound = new System.Windows.Forms.TextBox();
             this.cbStudentScore = new System.Windows.Forms.ComboBox();
@@ -110,27 +107,6 @@
             this.lblStudentScore.Size = new System.Drawing.Size(42, 15);
             this.lblStudentScore.TabIndex = 7;
             this.lblStudentScore.Text = "성적 : ";
-            // 
-            // lvDetail
-            // 
-            this.lvDetail.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chWeek,
-            this.chAttend});
-            this.lvDetail.Location = new System.Drawing.Point(12, 313);
-            this.lvDetail.Name = "lvDetail";
-            this.lvDetail.Size = new System.Drawing.Size(776, 125);
-            this.lvDetail.TabIndex = 8;
-            this.lvDetail.UseCompatibleStateImageBehavior = false;
-            this.lvDetail.View = System.Windows.Forms.View.Details;
-            // 
-            // chWeek
-            // 
-            this.chWeek.Text = "수업주차";
-            this.chWeek.Width = 100;
-            // 
-            // chAttend
-            // 
-            this.chAttend.Text = "출석";
             // 
             // lblRound
             // 
@@ -219,7 +195,7 @@
             // 
             // txtStudentNum
             // 
-            this.txtStudentNum.Location = new System.Drawing.Point(40, 177);
+            this.txtStudentNum.Location = new System.Drawing.Point(286, 87);
             this.txtStudentNum.Name = "txtStudentNum";
             this.txtStudentNum.Size = new System.Drawing.Size(100, 23);
             this.txtStudentNum.TabIndex = 18;
@@ -227,7 +203,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(484, 176);
+            this.btnSave.Location = new System.Drawing.Point(481, 87);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 19;
@@ -239,7 +215,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(571, 127);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtStudentNum);
             this.Controls.Add(this.txtTask);
@@ -251,7 +227,6 @@
             this.Controls.Add(this.cbStudentScore);
             this.Controls.Add(this.txtRound);
             this.Controls.Add(this.lblRound);
-            this.Controls.Add(this.lvDetail);
             this.Controls.Add(this.lblStudentScore);
             this.Controls.Add(this.txtGradeScore);
             this.Controls.Add(this.lblGradeScore);
@@ -276,9 +251,6 @@
         private Label lblGradeScore;
         private TextBox txtGradeScore;
         private Label lblStudentScore;
-        private ListView lvDetail;
-        private ColumnHeader chWeek;
-        private ColumnHeader chAttend;
         private Label lblRound;
         private TextBox txtRound;
         private ComboBox cbStudentScore;

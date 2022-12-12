@@ -1,5 +1,6 @@
 ﻿using Login;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -53,179 +54,148 @@ namespace StudentManagement
             string sql = "";
             string query = "";
 
-            try
+
+            // 각 조건에 맞는 SQL 쿼리문 작성
+            if (g == 0)
             {
+                query = "Select stdgrade, stdclass, stdnum, stdname, stdsemester from student";
 
-                using (MySqlConnection mysql = new MySqlConnection(db.connect()))
+                if (c == 1)
                 {
-                    mysql.Open();
-
-                    // 각 조건에 맞는 SQL 쿼리문 작성
-                    if(g == 0)
-                    {
-                        query = "Select * from student";
-                     
-                        if(c == 1)
-                        {
-                            query += " where stdclass='1반'"; 
-                        }
-                        else if(c == 2)
-                        {
-                            query += " where stdclass='2반'";
-                        }
-                    }
-                    else if(g == 1)
-                    {
-                        query = "Select * from student where stdgrade='1학년'";
-                    }
-                    else if(g == 2)
-                    {
-                        query = "Select * from student where stdgrade='2학년'";
-                    }
-                    else if(g == 3)
-                    {
-                        query = "Select * from student where stdgrade='3학년'";
-                    }
-
-                    if(c == 1 && g != 0)
-                    {
-                        query += " and stdclass='1반'";
-                    }
-                    else if(c == 2 && g != 0)
-                    {
-                        query += " and stdclass='2반'";
-                    }
-
-                    sql = String.Format(query);
-
-
-                    MySqlCommand command = new MySqlCommand(sql, mysql);
-
-                    MySqlDataReader reader = command.ExecuteReader();
-
-                    int len = 0;
-
-                    // 각 데이터들을 배열에 저장
-                    while (reader.Read())
-                    {
-                        grade[len] = reader["stdgrade"].ToString();
-                        classes[len] = reader["stdclass"].ToString();
-                        stdNum[len] = reader["stdnum"].ToString();
-                        name[len] = reader["stdname"].ToString();
-                        semester[len] = reader["stdsemester"].ToString();
-
-                        len++;
-                    }
-
-                    reader.Close();
-
-                    //출석률을 표시하는 코드
-
-                    int attend = 0;
-                    int late = 0;
-                    int absent = 0;
-
-                    int absentCheck = 0;
-
-                    double[] attendCount = new double[len];
-
-                    for(int i =0; i < len; i++)
-                    {
-
-                        attend = 0;
-                        late = 0;
-                        absent = 0;
-                        absentCheck = 0;
-
-                        sql = String.Format("SELECT courseattend, courselate, courseabsent FROM course WHERE coursenum = '{0}' AND coursesemester = '{1}' AND coursegrade = '{2}'", stdNum[i], semester[i], grade[i]);
-
-                        command = new MySqlCommand(sql, mysql);
-
-                        reader = command.ExecuteReader();
-
-                        while(reader.Read())
-                        {
-                            attend = int.Parse(reader["courseattend"].ToString());
-                            late = int.Parse(reader["courselate"].ToString());
-                            absent = int.Parse(reader["courseabsent"].ToString());
-
-                            if(absent > absentCheck)
-                            {
-                                absentCheck = absent;
-                                if(late >= 3)
-                                {
-                                    absentCheck += late / 3;
-                                }
-                            }
-
-                        }
-
-                        reader.Close();
-
-                        if(absentCheck != 0)
-                        {
-                            attendCount[i] = 100.0 - ((double)absentCheck / 16.0 * 100.0);
-                        }
-                        else
-                        {
-                            attendCount[i] = 100.0;
-                        }
-
-                        // checkAttendCount의 결석횟수를 이용하여 아이템 추가
-                        switch (absentCheck)
-                        {
-                            case 0:
-                                {
-                                    this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.White;
-                                    this.lvStudent.ForeColor = Color.Black;
-                                    break;
-                                }
-                            case 1:
-                                {
-                                    this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.Yellow;
-                                    this.lvStudent.ForeColor = Color.Black;
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.Orange;
-                                    this.lvStudent.ForeColor = Color.Black;
-                                    break;
-                                }
-                            case 3:
-                                {
-                                    this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.Red;
-                                    this.lvStudent.ForeColor = Color.Black;
-                                    break;
-                                }
-                            default:
-                                {
-                                    this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.Gray;
-                                    this.lvStudent.ForeColor = Color.Black;
-                                    break;
-                                }
-                        }
-
-                        attendCount[i] = 0;
-
-                    }
-
-                    
-
-
-                        
-                        
-                        
-
-                    
-
-                    mysql.Close();
+                    query += " where stdclass='1반'";
+                }
+                else if (c == 2)
+                {
+                    query += " where stdclass='2반'";
                 }
             }
-            catch (Exception ex)
+            else if (g == 1)
             {
-                MessageBox.Show(ex.Message);
+                query = "Select stdgrade, stdclass, stdnum, stdname, stdsemester from student where stdgrade='1학년'";
             }
+            else if (g == 2)
+            {
+                query = "Select stdgrade, stdclass, stdnum, stdname, stdsemester from student where stdgrade='2학년'";
+            }
+            else if (g == 3)
+            {
+                query = "Select stdgrade, stdclass, stdnum, stdname, stdsemester from student where stdgrade='3학년'";
+            }
+
+            if (c == 1 && g != 0)
+            {
+                query += " and stdclass='1반'";
+            }
+            else if (c == 2 && g != 0)
+            {
+                query += " and stdclass='2반'";
+            }
+
+
+
+            string[,] result = db.SqlSelect(query, 5);
+
+            int len = 0;
+
+            for (int i = 0; i < result.GetLength(0); i++)
+            {
+                grade[i] = result[i, 0];
+                classes[i] = result[i, 1];
+                stdNum[i] = result[i, 2];
+                name[i] = result[i, 3];
+                semester[i] = result[i, 4];
+
+                len++;
+            }
+
+            //출석률을 표시하는 코드
+
+            int attend = 0;
+            int late = 0;
+            int absent = 0;
+
+            int absentCheck = 0;
+
+            double[] attendCount = new double[len];
+
+            for (int i = 0; i < len; i++)
+            {
+
+                attend = 0;
+                late = 0;
+                absent = 0;
+                absentCheck = 0;
+
+                sql = String.Format("SELECT courseattend, courselate, courseabsent FROM course WHERE coursenum = '{0}' AND coursesemester = '{1}' AND coursegrade = '{2}'", stdNum[i], semester[i], grade[i]);
+
+                result = db.SqlSelect(sql, 3);
+
+                for (int j = 0; j < result.GetLength(0); j++)
+                {
+                    attend = int.Parse(result[j, 0]);
+                    late = int.Parse(result[j, 1]);
+                    absent = int.Parse(result[j, 2]);
+
+                    if (absent > absentCheck)
+                    {
+                        absentCheck = absent;
+                    }
+                    if (late >= 3)
+                    {
+                        absentCheck += late / 3;
+                    }
+                }
+
+                if (absentCheck != 0)
+                {
+                    attendCount[i] = 100.0 - ((double)absentCheck / 16.0 * 100.0);
+                }
+                else
+                {
+                    attendCount[i] = 100.0;
+                }
+
+                // checkAttendCount의 결석횟수를 이용하여 아이템 추가
+                switch (absentCheck)
+                {
+                    case 0:
+                        {
+                            this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.White;
+                            this.lvStudent.ForeColor = Color.Black;
+                            break;
+                        }
+                    case 1:
+                        {
+                            this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.Yellow;
+                            this.lvStudent.ForeColor = Color.Black;
+                            break;
+                        }
+                    case 2:
+                        {
+                            this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.Orange;
+                            this.lvStudent.ForeColor = Color.Black;
+                            break;
+                        }
+                    case 3:
+                        {
+                            this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.Red;
+                            this.lvStudent.ForeColor = Color.Black;
+                            break;
+                        }
+                    default:
+                        {
+                            this.lvStudent.Items.Add(new ListViewItem(new string[] { name[i], stdNum[i], grade[i], classes[i], attendCount[i] + "%" })).BackColor = Color.Gray;
+                            this.lvStudent.ForeColor = Color.Black;
+                            break;
+                        }
+                }
+
+                attendCount[i] = 0;
+
+
+
+            }
+
 
         }
 

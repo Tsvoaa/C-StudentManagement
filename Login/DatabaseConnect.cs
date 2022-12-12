@@ -43,8 +43,6 @@ namespace StudentManagement
                     string sql = String.Format("{0}", query);
 
                     MySqlCommand command = new MySqlCommand(sql, mysql);
-
-                    command = new MySqlCommand(query, mysql);
                     MySqlDataReader reader = command.ExecuteReader();
 
                     int columnsCount = 0;

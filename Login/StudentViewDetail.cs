@@ -285,7 +285,7 @@ namespace StudentManagement
 
         }
 
-        public void StudentData()
+        private void StudentData()
         {
             try
             {
